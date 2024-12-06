@@ -2,11 +2,15 @@ import { Label } from '@radix-ui/react-context-menu'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@web-archive/shared/components/dialog'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@web-archive/shared/components/select'
+import { Switch } from '@web-archive/shared/components/switch'
 import { useTheme } from '@web-archive/shared/components/theme-provider'
 import { Settings } from 'lucide-react'
+import AITagSettingCollapsible from './ai-tag-setting-collapsible'
+import { useShouldShowRecent } from '~/hooks/useShouldShowRecent'
 
 function SettingDialog({ open, setOpen }: { open: boolean, setOpen: (open: boolean) => void }) {
   const { theme, setTheme } = useTheme()
+  const { shouldShowRecent, updateShouldShowRecent } = useShouldShowRecent()
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -19,7 +23,7 @@ function SettingDialog({ open, setOpen }: { open: boolean, setOpen: (open: boole
         </DialogHeader>
         <DialogDescription>
         </DialogDescription>
-        <div>
+        <div className="space-y-4">
           <div className="flex items-center space-x-6">
             <Label className="font-bold">Color theme: </Label>
             <Select value={theme} onValueChange={setTheme}>
@@ -32,6 +36,17 @@ function SettingDialog({ open, setOpen }: { open: boolean, setOpen: (open: boole
                 <SelectItem value="system">System</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="flex items-center space-x-6">
+            <Label className="font-bold">Show Recent Save Page: </Label>
+            <Switch
+              checked={shouldShowRecent}
+              onCheckedChange={updateShouldShowRecent}
+            >
+            </Switch>
+          </div>
+          <div>
+            <AITagSettingCollapsible></AITagSettingCollapsible>
           </div>
         </div>
       </DialogContent>
